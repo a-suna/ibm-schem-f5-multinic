@@ -212,7 +212,7 @@ These endpoints provide declarative orchestration of multiple NFV functions incl
 
 ## Troubleshooting Known Error States
 
-The following errors were discovered in exhaustive testing of this Schematics tempalte. 
+The following errors were discovered in exhaustive testing of this Schematics template.
 
 ### User providing invalid image name
 
