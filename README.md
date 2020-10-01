@@ -283,13 +283,13 @@ The reason for the failures can be found in the `/var/log/restnoded/restnoded.lo
 As an example, if the virtualization infrastructure performance is insufficent to appropriately run needed services within F5 TMOS™ you will see log entries like this:
 
 ```text
-XXX, XX XXX XXXX XX:XX:XX GMT - finest: [f5-declarative-onboarding: restWorker.js] tryUntil: got error {"code":503,"message":"tryUntil: max tries reached: Unable to process request /tm/sys/available. Service is unavailable.","name":"Error"}
+[f5-declarative-onboarding: restWorker.js] tryUntil: got error {"code":503,"message":"tryUntil: max tries reached: Unable to process request /tm/sys/available. Service is unavailable.","name":"Error"}
 ```
 
 immediately proceeding the line which reads:
 
 ```text
-XXX, XX XXX XXXX XX:XX:XX GMT - info: [f5-declarative-onboarding: restWorker.js] Rolling back configuration
+[f5-declarative-onboarding: restWorker.js] Rolling back configuration
 ```
 
 If you see that the system services did not become available, delete the workspace and start another. This type of error happens less then 1% of the time in IBM VPC Gen2 cloud, but has been noted. Creating another workspace from this template is the solution.
@@ -297,13 +297,13 @@ If you see that the system services did not become available, delete the workspa
 As a second example, if there were issues licensing your F5 BIG-IP™ Virtual Edition instance because of Utility pool grant exhaustion or communications error with the BIG-IQ you would see messages like this:
 
 ```text
-XXX, XX XXX XXXX XX:XX:XX GMT - severe: [f5-declarative-onboarding: restWorker.js] Error onboarding: Error waiting for license assignment
+[f5-declarative-onboarding: restWorker.js] Error onboarding: Error waiting for license assignment
 ```
 
 immediately proceeding the line which reads:
 
 ```text
-XXX, XX XXX XXXX XX:XX:XX GMT - info: [f5-declarative-onboarding: restWorker.js] Rolling back configuration
+[f5-declarative-onboarding: restWorker.js] Rolling back configuration
 ```
 
 In this case too, keeping with the spirit of infrastructure as code, the solution would be to correct any issue with the license pool or networking, delete the workspace, and create another from this template.
