@@ -6,6 +6,18 @@ Use this template to create BIG-IP™ virtual edition instnaces using catalog im
 
 This template requires that the F5 TMOS™ qcow2 images be patched including the IBM VPC Gen2 cloudinit config and the full complement of tmos-cloudinit modules. The template also requires the f5-declarative-onboarding AT extension version 1.16.0 or greater be included in the patched image.
 
+This Schematics template submits cloudinit user-data which utilizes the F5 Declarative Onboarding extension. Documentation for this extension can be found at:
+
+[F5 Cloud Documentation for the F5 Declarative Onboarding Extension](https://clouddocs.f5.com/products/extensions/f5-declarative-onboarding/latest/)
+
+In addition to installing and utilizing the Declative Onboarding extension, the image onboarding process also installs recent versions of the F5 Application Services 3 and Telemetry Streaming extensions. Documentation of these extensions, and the use of their control plane API endpoints, can be found at:
+
+[F5 Cloud Documentation for the F5 Application Services 3 Extension](https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/)
+
+[F5 Cloud Documentation for the F5 Telemetry Services Extension](https://clouddocs.f5.com/products/extensions/f5-telemetry-streaming/latest/)
+
+Once the BIG-IP™ Virtual Edition instance is onbaorded through Schematics and the F5 Declarative Onboarding Extension, the extension endpoints can be utilized to orchestrate L4-L7 services and logging, creating a fully functional and declarative ADC. Multiple VNFs can be provisioned using the BIG-IP™ Virtual Edition with declared services.
+
 ## IBM Cloud IaaS Support
 
 You're provided free technical support through the IBM Cloud™ community and Stack Overflow, which you can access from the Support Center. The level of support that you select determines the severity that you can assign to support cases and your level of access to the tools available in the Support Center. Choose a Basic, Advanced, or Premium support plan to customize your IBM Cloud™ support experience for your business needs.
@@ -187,3 +199,113 @@ If there is any failure during VPC instance creation, the created resources must
 2. From the CLI, run `ssh root@<Floating IP>`.
 3. Enter 'yes' for continue connecting using ssh your key. This is the ssh key value, you specified in ssh_key variable.
 4. Use the ```tmsh``` shell.
+
+Alternatively, the F5 Declarative Onboading, F5 Application Service 3, and F5 Telemetry Streaming service endpoints are available at:
+
+```text
+https://<Floating IP>/mgmt/shared/declarative-onboarding
+https://<Floating IP>/mgmt/shared/appsvcs
+https://<Floating IP>/mgmt/shared/telemetry
+```
+
+These endpoints provide declarative orchestration of multiple NFV functions including L4-L7 ADC funcationality, network firewalls, web application firewalls, and DNS services.
+
+## Troubleshooting Known Error States
+
+The following errors were discovered in exhaustive testing of this Schematics tempalte. 
+
+### User providing invalid image name
+
+F5 BIG-IP™ Virtual Edition images names can be specified to match either custom images within an account's VPCs or can use the images available as part of the IBM public cloud image catalog. The image ids for the public cloud images are enumerated in a map container within the template itself. If the image name provided to the template matches neither a VPC custom image or a public cloud image name in the embedded map, the following error will occuring in your plan or apply phase:
+
+```text
+XXXX/XX/XX XX:XX:XX Terraform plan | Error: Invalid index
+XXXX/XX/XX XX:XX:XX Terraform plan |
+XXXX/XX/XX XX:XX:XX Terraform plan |   on compute.tf line 69, in locals:
+XXXX/XX/XX XX:XX:XX Terraform plan |   69:   image_id = data.ibm_is_image.tmos_custom_image.id == null ? lookup(local.public_image_map[var.tmos_image_name], var.region) : data.ibm_is_image.tmos_custom_image.id
+XXXX/XX/XX XX:XX:XX Terraform plan |     |----------------
+XXXX/XX/XX XX:XX:XX Terraform plan |     | local.public_image_map is object with 4 attributes
+XXXX/XX/XX XX:XX:XX Terraform plan |     | var.tmos_image_name is "bigip-16-0-0-0-0-12-all-1slot-us-south"
+XXXX/XX/XX XX:XX:XX Terraform plan |
+XXXX/XX/XX XX:XX:XX Terraform plan | The given key does not identify an element in this collection value.
+XXXX/XX/XX XX:XX:XX Terraform plan |
+XXXX/XX/XX XX:XX:XX Terraform PLAN error: Terraform PLAN errorexit status 1
+XXXX/XX/XX XX:XX:XX Could not execute action
+```
+
+To remedy this error, provide a valid image name and re-plan or re-apply.
+
+### Failures within the Schematics service
+
+If the Schematics system can not appropriately construct the execution environment for terraform, a continous repeat of the following log entries can be found at the end of the log of any of the workspace phase logs:
+
+```text
+XXXX/XX/XX XX:XX:XX  --- Ready to execute the command ---
+XXXX/XX/XX XX:XX:XX  --- Ready to execute the command ---
+XXXX/XX/XX XX:XX:XX  --- Ready to execute the command ---
+XXXX/XX/XX XX:XX:XX  --- Ready to execute the command ---
+XXXX/XX/XX XX:XX:XX  --- Ready to execute the command ---
+XXXX/XX/XX XX:XX:XX  --- Ready to execute the command ---
+XXXX/XX/XX XX:XX:XX  --- Ready to execute the command ---
+XXXX/XX/XX XX:XX:XX  --- Ready to execute the command ---
+XXXX/XX/XX XX:XX:XX  --- Ready to execute the command ---
+```
+
+If you experience this, please open a support case with IBM cloud so they can examine the Schematics error.
+
+### Failure in the IBM Terraform Providers running in the Schematics service
+
+This template uses only community and IBM authored Terraform resource providers. Both of which are supported under Schematics.
+
+*There are no F5 Terraform resource providers used by this template, thus nothing to report to F5 when Terraform resources fail. All Terraform resources used in this template are supported by IBM.*
+
+When Schematics experiences an error with the community or IBM authoried Terraform resource providers, the cause of the issue will be in the log entries of the failing workspace phase logs. As an example, the following log entry will be present when the `ibm_is_instance` provider experiences issues with the IBM VPC Gen2 instance APIs:
+
+```text
+XXXX/XX/XX XX:XX:XX Terraform apply | ibm_is_instance.f5_ve_instance: Creating...
+XXXX/XX/XX XX:XX:XX Terraform apply |
+XXXX/XX/XX XX:XX:XX Terraform apply | Error: internal server error
+XXXX/XX/XX XX:XX:XX Terraform apply |
+XXXX/XX/XX XX:XX:XX Terraform apply |   on compute.tf line 109, in resource "ibm_is_instance" "f5_ve_instance":
+XXXX/XX/XX XX:XX:XX Terraform apply |  109: resource "ibm_is_instance"
+```
+
+If you experience this, please open a support case with IBM cloud so they can examine the Schematic supported Terraform resource providers.
+
+### Failure in the F5 Declarative Onboarding declaration
+
+If your F5 BIG-IP™ Virtual Edition instance fails to reach the operational state, please login to the instance using the supplied IBM VPC Gen2 SSH key at:
+
+```bash
+ssh -i SSH_private_key root@[Instance Floating IP]
+```
+
+The reason for the failures can be found in the `/var/log/restnoded/restnoded.log` file. Search for the term '`Rolling back configuration`' and the cause for the declaration failure should immediately proceed the presence of the searched entry for '`Rolling back configuration`'.
+
+As an example, if the virtualization infrastructure performance is insufficent to appropriately run needed services within F5 TMOS™ you will see log entries like this:
+
+```text
+XXX, XX XXX XXXX XX:XX:XX GMT - finest: [f5-declarative-onboarding: restWorker.js] tryUntil: got error {"code":503,"message":"tryUntil: max tries reached: Unable to process request /tm/sys/available. Service is unavailable.","name":"Error"}
+```
+
+imediately proceeding the line which reads:
+
+```text
+XXX, XX XXX XXXX XX:XX:XX GMT - info: [f5-declarative-onboarding: restWorker.js] Rolling back configuration
+```
+
+If you see that the system services did not become available, delete the workspace and start another. This type of error happens less then 1% of the time in IBM VPC Gen2 cloud, but has been noted. Creating another workspace from this template is the solution.
+
+As a second example, if there were issues licensing your F5 BIG-IP™ Virtual Edition instance because of Utility pool grant exhaustion or communications error with the BIG-IQ you would see messages like this:
+
+```text
+XXX, XX XXX XXXX XX:XX:XX GMT - severe: [f5-declarative-onboarding: restWorker.js] Error onboarding: Error waiting for license assignment
+```
+
+imediately proceeding the line which reads:
+
+```text
+XXX, XX XXX XXXX XX:XX:XX GMT - info: [f5-declarative-onboarding: restWorker.js] Rolling back configuration
+```
+
+In this case too, keeping with the spirit of infrastructure as code, the solution would be to correct any issue with the license pool or networking, delete the workspace, and create another from this template.
