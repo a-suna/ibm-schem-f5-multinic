@@ -277,7 +277,7 @@ If you experience this, please open a support case with IBM cloud so they can ex
 If your F5 BIG-IP™ Virtual Edition instance fails to reach the operational state, please login to the instance using the supplied IBM VPC Gen2 SSH key at:
 
 ```bash
-ssh -i SSH_private_key root@[Instance Floating IP]
+ssh -i SSH_private_key root@<Floating IP>
 ```
 
 The reason for the failures can be found in the `/var/log/restnoded/restnoded.log` file. Search for the term '`Rolling back configuration`' and the cause for the declaration failure should immediately proceed the presence of the searched entry for '`Rolling back configuration`'.
