@@ -1,8 +1,8 @@
 # F5 Networks BIG-IP™ Virtual Edition Instance Creation using Catalog image
 
-This directory contains the terraform module to create BIG-IP™ VPC Gen2 instances using catalog input from the user.
+This directory contains the Terraform module to create BIG-IP™ VPC Gen2 instances using catalog input from the user.
 
-Use this template to create BIG-IP™ virtual edition instnaces using catalog image from your IBM Cloud account in IBM Cloud [VPC Gen2](https://cloud.ibm.com/vpc-ext/overview) by using Terraform or IBM Cloud Schematics.  Schematics uses Terraform as the infrastructure-as-code engine.  With this template, you can create and manage infrastructure as a single unit as follows. For more information about how to use this template, see the IBM Cloud [Schematics documentation](https://cloud.ibm.com/docs/schematics).
+Use this template to create BIG-IP™ Virtual Edition instances using catalog image from your IBM Cloud account in IBM Cloud [VPC Gen2](https://cloud.ibm.com/vpc-ext/overview) by using Terraform or IBM Cloud Schematics.  Schematics uses Terraform as the infrastructure-as-code engine.  With this template, you can create and manage infrastructure as a single unit as follows. For more information about how to use this template, see the IBM Cloud [Schematics documentation](https://cloud.ibm.com/docs/schematics).
 
 This template requires that the F5 TMOS™ qcow2 images be patched including the IBM VPC Gen2 cloudinit config and the full complement of tmos-cloudinit modules. The template also requires the f5-declarative-onboarding AT extension version 1.16.0 or greater be included in the patched image.
 
@@ -10,13 +10,13 @@ This Schematics template submits cloudinit user-data which utilizes the F5 Decla
 
 [F5 Cloud Documentation for the F5 Declarative Onboarding Extension](https://clouddocs.f5.com/products/extensions/f5-declarative-onboarding/latest/)
 
-In addition to installing and utilizing the Declative Onboarding extension, the image onboarding process also installs recent versions of the F5 Application Services 3 and Telemetry Streaming extensions. Documentation of these extensions, and the use of their control plane API endpoints, can be found at:
+In addition to installing and utilizing the Declarative Onboarding extension, the image onboarding process also installs recent versions of the F5 Application Services 3 and Telemetry Streaming extensions. Documentation of these extensions, and the use of their control plane API endpoints, can be found at:
 
 [F5 Cloud Documentation for the F5 Application Services 3 Extension](https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/)
 
 [F5 Cloud Documentation for the F5 Telemetry Services Extension](https://clouddocs.f5.com/products/extensions/f5-telemetry-streaming/latest/)
 
-Once the BIG-IP™ Virtual Edition instance is onbaorded through Schematics and the F5 Declarative Onboarding Extension, the extension endpoints can be utilized to orchestrate L4-L7 services and logging, creating a fully functional and declarative ADC. Multiple VNFs can be provisioned using the BIG-IP™ Virtual Edition with declared services.
+Once the BIG-IP™ Virtual Edition instance is onboarded through Schematics and the F5 Declarative Onboarding Extension, the extension endpoints can be utilized to orchestrate L4-L7 services and logging, creating a fully functional and declarative ADC. Multiple VNFs can be provisioned using the BIG-IP™ Virtual Edition with declared services.
 
 ## IBM Cloud IaaS Support
 
@@ -43,7 +43,7 @@ Public BIG-IP™ images available on IBM Cloud are:
 
 If your regional custom image has the same name as the public image, your custom image will be used.
 
-By default the BIG-IP™ virtual edition instnace will be unlicensed. The user can choose to include the following license types and their required template attributes
+By default the BIG-IP™ Virtual Edition instance will be unlicensed. The user can choose to include the following license types and their required template attributes
 
 **User variable:** ```license_type```
 
@@ -66,7 +66,7 @@ The user should create an SSH key in the IBM cloud region. The SSH key name shou
 
 **User Variable:** ```ssh_key_name```
 
-Once the images completes onboarding, SSH access to the ```root``` user is available on the defined management Floating IP.
+Once the image completes onboarding, SSH access to the ```root``` user is available on the defined management Floating IP.
 
 The user should also provide an ```admin``` user password.
 
@@ -82,9 +82,9 @@ At least one VPC subnet must be defined:
 
 **User Variable:** ```management_subnet_id```
 
-If only the ```management_subnet_id``` id defined, the BIG-IP™ will be create as a 1NIC instance. The management UI and APIs can then be reached on port 8443 instead of the standard 443.
+If only the ```management_subnet_id``` id is defined, the BIG-IP™ will be created as a 1NIC instance. The management UI and APIs can then be reached on port 8443 instead of the standard 443.
 
-Up to five network interfaces can be added to a IBM VPC instnace. If you define additional subnet IDs, these will be mapped to BIG-IP™ data interfaces starting with inteface ```1.1```
+Up to five network interfaces can be added to a IBM VPC instnace. If you define additional subnet IDs, these will be mapped to BIG-IP™ data interfaces starting with interface ```1.1```
 
 **User Variables:**
 
@@ -125,7 +125,7 @@ The POST body will be JSON encoded and supply basic instance information:
 }
 ```
 
-The user can optionally defined an ```app_id``` variable to tie this instnace for reference.
+The user can optionally define an ```app_id``` variable to tie this instnace for reference.
 
 *User Variables:*
 
@@ -135,7 +135,7 @@ Once onboarding is complete, the user can than access the TMOS™ Web UI, use iC
 
 ## Costs
 
-When you apply template, the infrastructure resources that you create incur charges as follows. To clean up the resources, you can [delete your Schematics workspace or your instance](https://cloud.ibm.com/docs/schematics?topic=schematics-manage-lifecycle#destroy-resources). Removing the workspace or the instance cannot be undone. Make sure that you back up any data that you must keep before you start the deletion process.
+When you apply the template, the infrastructure resources that you create incur charges as follows. To clean up the resources, you can [delete your Schematics workspace or your instance](https://cloud.ibm.com/docs/schematics?topic=schematics-manage-lifecycle#destroy-resources). Removing the workspace or the instance cannot be undone. Make sure that you back up any data that you must keep before you start the deletion process.
 
 *_VPC_: VPC charges are incurred for the infrastructure resources within the VPC, as well as network traffic for internet data transfer. For more information, see [Pricing for VPC](https://cloud.ibm.com/docs/vpc-on-classic?topic=vpc-on-classic-pricing-for-vpc).
 
@@ -153,7 +153,7 @@ Before you can apply the template in IBM Cloud, complete the following steps.
 
 ## Configuring your deployment values
 
-Create a schematics workspace and provide the github repository url (https://github.com/f5devcentral/ibmcloud_schematics_bigip_multinic/tree/master) under settings to pull the latest code, so that you can set up your deployment variables from the `Create` page. Once the template is applied, IBM Cloud Schematics  provisions the resources based on the values that were specified for the deployment variables.
+Create a schematics workspace and provide the github repository url (https://github.com/f5devcentral/ibmcloud_schematics_bigip_multinic/tree/master) under settings to pull the latest code, so that you can set up your deployment variables from the `Create` page. Once the template is applied, IBM Cloud Schematics provisions the resources based on the values that were specified for the deployment variables.
 
 ### Required values
 Fill in the following values, based on the steps that you completed before you began.
@@ -191,7 +191,7 @@ Fill in the following values, based on the steps that you completed before you b
 
 ## Notes
 
-If there is any failure during VPC instance creation, the created resources must be destroyed before attempting to instantiate again. To destroy resources go to `Schematics -> Workspaces -> [Your Workspace] -> Actions -> Delete` to delete  all associated resources.
+If there is any failure during VPC instance creation, the created resources must be destroyed before attempting to instantiate again. To destroy resources go to `Schematics -> Workspaces -> [Your Workspace] -> Actions -> Delete` to delete all associated resources.
 
 ## Post F5 BIG-IP™ Virtual Edition Onboarding
 
@@ -259,7 +259,7 @@ This template uses only community and IBM authored Terraform resource providers.
 
 *There are no F5 Terraform resource providers used by this template, thus nothing to report to F5 when Terraform resources fail. All Terraform resources used in this template are supported by IBM.*
 
-When Schematics experiences an error with the community or IBM authoried Terraform resource providers, the cause of the issue will be in the log entries of the failing workspace phase logs. As an example, the following log entry will be present when the `ibm_is_instance` provider experiences issues with the IBM VPC Gen2 instance APIs:
+When Schematics experiences an error with the community or IBM authorized Terraform resource providers, the cause of the issue will be in the log entries of the failing workspace phase logs. As an example, the following log entry will be present when the `ibm_is_instance` provider experiences issues with the IBM VPC Gen2 instance APIs:
 
 ```text
 XXXX/XX/XX XX:XX:XX Terraform apply | ibm_is_instance.f5_ve_instance: Creating...
