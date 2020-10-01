@@ -116,7 +116,7 @@ The POST body will be JSON encoded and supply basic instance information:
     "as3_enabled": false,
     "ts_enabled": false,
     "metadata": {
-        "template_source": "f5devcentral/tmos-cloudinit/demo/ibmcloud_vpc_gen2/schematics/tmos_multi_nic",
+        "template_source": "/f5devcentral/ibmcloud_schematics_bigip_multinic/tree/master",
         "template_version": 20200825,
         "zone": "eu-de-1",
         "vpc": "r010-e27c516a-22ff-41f5-96b8-e8ea833fd39f",
@@ -153,7 +153,7 @@ Before you can apply the template in IBM Cloud, complete the following steps.
 
 ## Configuring your deployment values
 
-Create a schematics workspace and provide the github repository url (https://github.com/f5devcentral/tmos-cloudinit/tree/master/demo/ibmcloud_vpc_gen2/schematics/tmos_multi_nic) under settings to pull the latest code, so that you can set up your deployment variables from the `Create` page. Once the template is applied, IBM Cloud Schematics  provisions the resources based on the values that were specified for the deployment variables.
+Create a schematics workspace and provide the github repository url (https://github.com/f5devcentral/ibmcloud_schematics_bigip_multinic/tree/master) under settings to pull the latest code, so that you can set up your deployment variables from the `Create` page. Once the template is applied, IBM Cloud Schematics  provisions the resources based on the values that were specified for the deployment variables.
 
 ### Required values
 Fill in the following values, based on the steps that you completed before you began.
