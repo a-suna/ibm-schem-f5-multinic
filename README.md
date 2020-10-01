@@ -288,7 +288,7 @@ As an example, if the virtualization infrastructure performance is insufficent t
 XXX, XX XXX XXXX XX:XX:XX GMT - finest: [f5-declarative-onboarding: restWorker.js] tryUntil: got error {"code":503,"message":"tryUntil: max tries reached: Unable to process request /tm/sys/available. Service is unavailable.","name":"Error"}
 ```
 
-imediately proceeding the line which reads:
+immediately proceeding the line which reads:
 
 ```text
 XXX, XX XXX XXXX XX:XX:XX GMT - info: [f5-declarative-onboarding: restWorker.js] Rolling back configuration
