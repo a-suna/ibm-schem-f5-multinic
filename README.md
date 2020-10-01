@@ -302,7 +302,7 @@ As a second example, if there were issues licensing your F5 BIG-IP™ Virtual Ed
 XXX, XX XXX XXXX XX:XX:XX GMT - severe: [f5-declarative-onboarding: restWorker.js] Error onboarding: Error waiting for license assignment
 ```
 
-imediately proceeding the line which reads:
+immediately proceeding the line which reads:
 
 ```text
 XXX, XX XXX XXXX XX:XX:XX GMT - info: [f5-declarative-onboarding: restWorker.js] Rolling back configuration
