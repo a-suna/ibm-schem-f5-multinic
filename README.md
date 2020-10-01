@@ -216,7 +216,7 @@ The following errors were discovered in exhaustive testing of this Schematics te
 
 ### User providing invalid image name
 
-F5 BIG-IP™ Virtual Edition images names can be specified to match either custom images within an account's VPCs or can use the images available as part of the IBM public cloud image catalog. The image ids for the public cloud images are enumerated in a map container within the template itself. If the image name provided to the template matches neither a VPC custom image or a public cloud image name in the embedded map, the following error will occuring in your plan or apply phase:
+F5 BIG-IP™ Virtual Edition images names can be specified to match either custom images within an account's VPCs or can use the images available as part of the IBM public cloud image catalog. The image ids for the public cloud images are enumerated in a map embedded within the template itself. If the image name provided can not be mapped to a VPC custom image name nor a public cloud image name embedded in the template, the following error will occuring in your plan or apply phase:
 
 ```text
 XXXX/XX/XX XX:XX:XX Terraform plan | Error: Invalid index
