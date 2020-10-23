@@ -46,7 +46,7 @@ locals {
     }
     bigip-15-1-0-4-0-0-6-ltm-1slot = {
       "us-south" = "r006-bd24a8f4-ff18-4a79-9356-536183447965"
-      "us-east"  = "r014-e2a4cc82-d935-4f3f-9042-21f64d18232c"
+      "us-east"  = "r014-54b9a7fa-a002-4334-b774-a64df3284423"
       "eu-gb"    = "r018-fbe6ecdd-c9c9-4318-862f-b0d8a4e8f284"
       "eu-de"    = "r010-ed6f2e7d-334e-497e-a9f2-078e8906bc39"
       "jp-tok"   = "r022-81a4a3fc-d726-4da2-befa-24ecf3cd8db8"
