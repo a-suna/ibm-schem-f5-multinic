@@ -6,6 +6,12 @@ variable "region" {
   default     = "us-south"
   description = "The VPC region to instatiate the F5 BIG-IP instance"
 }
+
+variable "TF_VERSION" {
+ default = "0.12"
+ description = "terraform engine version to be used in schematics"
+}
+
 # Present for CLI testng
 #variable "api_key" {
 #  type        = string
