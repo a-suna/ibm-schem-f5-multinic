@@ -110,6 +110,7 @@ resource "ibm_is_instance" "f5_ve_instance" {
   name    = var.instance_name
   image   = local.image_id
   profile = data.ibm_is_instance_profile.instance_profile.id
+  resource_group = data.ibm_is_subnet.f5_managment_subnet.resource_group
   primary_network_interface {
     name            = "management"
     subnet          = data.ibm_is_subnet.f5_managment_subnet.id
