@@ -140,6 +140,7 @@ resource "ibm_is_instance" "f5_ve_instance" {
 resource "ibm_is_floating_ip" "f5_management_floating_ip" {
   name   = "f0-${random_uuid.namer.result}"
   target = ibm_is_instance.f5_ve_instance.primary_network_interface.0.id
+  resource_group = data.ibm_is_subnet.f5_managment_subnet.resource_group
   timeouts {
     create = "60m"
     delete = "60m"
